@@ -9,7 +9,7 @@ const controllersAuth = require('../controllers/auth')
 // Register
 // router.get('/register', controllersAuth.registerForm);
 
-// router.post('/register', wrapAsync(controllersAuth.register));
+router.post('/register', wrapAsync(controllersAuth.register));
 
 // Login
 // router.get('/login', controllersAuth.loginForm);

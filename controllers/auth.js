@@ -2,25 +2,43 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user');
 
+
+module.exports.register = async(req,res)=>{
+
+  const user = new User({
+  fullname:req.body.fullname,
+  email:req.body.email,
+  username:req.body.username,
+  password: await bcrypt.hash(req.body.password, 10),
+}).save();
+
+res.send(user)
+}
+
+
+
+
+
+
 module.exports.registerForm = async (req, res) => {
     res.status(200).json({ message: 'Render registration form' });
 }
 
-module.exports.register = async (req, res) => {
-    try {
-        const { email, username, password, name } = req.body;
-        const user = new User({ email, username, name });
-        const registerUser = await User.register(user, password);
+// module.exports.register = async (req, res) => {
+//     try {
+//         const { email, username, password, name } = req.body;
+//         const user = new User({ email, username, name });
+//         const registerUser = await User.register(user, password);
 
-        req.login(registerUser, (err) => {
-            if (err) return next(err);
-            req.flash('success_msg', 'Registrasi berhasil, Anda berhasil login');
-            res.status(200).json({ success: true, message: 'Registrasi berhasil' });
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-}
+//         req.login(registerUser, (err) => {
+//             if (err) return next(err);
+//             req.flash('success_msg', 'Registrasi berhasil, Anda berhasil login');
+//             res.status(200).json({ success: true, message: 'Registrasi berhasil' });
+//         });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// }
 
 module.exports.loginForm = (req, res) => {
     res.status(200).json({ message: 'Render login form' });
@@ -56,14 +74,3 @@ const bcrypt = require('bcryptjs')
 })}
 
 
-module.exports.register = async(req,res)=>{
-
-  const user = new UserActivation({
-  fullname:req.body.fullname,
-  email:req.body.email,
-  username:req.body.username,
-  password: await bcrypt.hash(req.body.password, 10),
-}).save();
-
-res.send(user)
-}
