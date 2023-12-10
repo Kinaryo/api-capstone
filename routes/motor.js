@@ -15,7 +15,7 @@ router.get('/search', isAuthToken, wrapAsync(controllersMotor.search));
 router.get('/', isAuthToken, wrapAsync(controllersMotor.index));
 router.get('/detail/:id', isAuthToken, isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
 
-router.get('/create/', isAuth, controllersMotor.form);
+router.get('/create', isAuth, controllersMotor.form);
 router.post('/create/upload', isAuth, upload.array('image', 5), wrapAsync(controllersMotor.store));
 
 router.get('/:id/edit', isAuth, isAuthorMotor, isValidObjectId('/motors'), wrapAsync(controllersMotor.edit));

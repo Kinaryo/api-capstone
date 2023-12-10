@@ -52,6 +52,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 // Passport configuration...
 
+app.use(session({
+    secret: 'your-secret-key', // Add your own secret key
+    resave: false,
+    saveUninitialized: true, // Set to true or false based on your use case
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 100 * 60 * 60 * 24 * 27
+    }
+}));
+
+
+
 // Custom middleware...
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
@@ -59,6 +72,7 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
+
 
 // Routes...
 app.use('/', require('./routes/auth'));
