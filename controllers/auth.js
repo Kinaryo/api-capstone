@@ -5,7 +5,12 @@ const bcrypt = require('bcrypt');
 
 module.exports.register = async (req, res) => {
   try {
-    const user = await new User({
+
+    let user = await User.findOne({email: req.body.email});
+    if (user){
+    return res.send ("user with given email is existing");
+    }
+    user = await new User({
       fullname: req.body.fullname,
       email: req.body.email,
       username: req.body.username,
