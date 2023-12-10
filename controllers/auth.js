@@ -26,36 +26,21 @@ module.exports.register = async (req, res) => {
 };
 
 
-module.exports.login = async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+module.exports.login = async (req,res)=>{
+  const user = await User.findOne({email:req.body.email})
+  if (user){
+    if(bcrypt.compare(req.body.password, user.password)){
+      res.send(
+        {
+          _id:user._id,
+          fullname:user.fullname,
+          email:user.email,
+          password: user.password
+        }
+      )
     }
-
-    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-
-    if (passwordMatch) {
-      const payload = { user_id: user._id, username: user.username };
-
-      // Lanjutkan dengan logika untuk membuat dan mengirimkan token JWT
-      // ...
-
-      res.json({
-        _id: user._id,
-        fullname: user.fullname,
-        email: user.email,
-        password: user.password
-      });
-    } else {
-      res.status(401).json({ error: 'Invalid password' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error during login' });
   }
-};
+}
 
 
 
