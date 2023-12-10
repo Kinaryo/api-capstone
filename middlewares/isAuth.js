@@ -1,31 +1,25 @@
-module.exports = (req,res,next)=>{
-    if(!req.isAuthenticated()){
-        req.flash('error_msg', 'Maaf! anda belum login')
-        return res.redirect('/login')
+const jwt = require('jsonwebtoken');
 
+const isAuthToken = (req, res, next) => {
+  const token = req.headers['authorization'];
 
+  if (!token) {
+    return res.status(401).json({ error: 'Token not provided' });
+  }
+
+  // Menggunakan secret key yang disimpan di lingkungan
+  const secretKey = process.env.JWT_PASS;
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ error: 'Token not valid' });
     }
+
+    // Setelah verifikasi berhasil, set objek user pada req
+    req.user = decoded;
+
     next();
-}
+  });
+};
 
-// require('dotenv').config();
-
-// const jwt = require('jsonwebtoken');
-// const secretKey = process.env.JWT_SECRET || 'defaultSecretKey';
-
-// module.exports = function isAuth(req, res, next) {
-//   const token = req.headers['authorization'];
-
-//   if (!token) {
-//     return res.status(401).send('Tidak diizinkan');
-//   }
-
-//   jwt.verify(token, secretKey, (err, decoded) => {
-//     if (err) {
-//       return res.status(403).send('Token tidak valid');
-//     }
-
-//     req.user = decoded;
-//     next();
-//   });
-// };
+module.exports.isAuthToken = isAuthToken;

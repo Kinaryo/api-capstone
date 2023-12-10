@@ -4,6 +4,7 @@ const constrollersMotor = require('../controllers/motor')
 const ErrorHandler = require('../utils/ErrorHandler');
 const isValidObjectId = require('../middlewares/isValidObjectId')
 const isAuth = require('../middlewares/isAuth')
+const { isAuthToken } = require('../middlewares/isAuth');
 const isAuthor = require('../middlewares/isAuthor')
 const upload = require('../config/multer')
 const Motor = require('../models/motor')
@@ -15,11 +16,11 @@ const router = express.Router();
 
 
 
-router.get('/search', isAuth,wrapAsync(constrollersMotor.search));
+router.get('/search', isAuthToken,wrapAsync(constrollersMotor.search));
 //  mendapatkan semua data motor dalam bentuk JSON
-router.get('/', isAuth,wrapAsync(constrollersMotor.index));
+router.get('/', isAuthToken,wrapAsync(constrollersMotor.index));
 // mendapatkan detail motor berdasarkan ID dalam bentuk JSON
-router.get('/detail/:id', isAuth, isValidObjectId('/motors'),wrapAsync(constrollersMotor.detail));
+router.get('/detail/:id', isAuthToken, isValidObjectId('/motors'),wrapAsync(constrollersMotor.detail));
 // menuju halaman new data motor 
 // router.get('/create/', isAuth, constrollersMotor.form ) 
 router.get('/create/', isAuth, constrollersMotor.form ) 
