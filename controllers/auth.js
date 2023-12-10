@@ -89,15 +89,15 @@ module.exports.loginForm = (req, res) => {
 //     res.status(200).json({ success: true, message: 'Login berhasil' });
 // };
 
-module.exports.login = async (req, res) => {
-    // Jika autentikasi berhasil, buat token JWT
-    const payload = { user_id: req.user._id, username: req.user.username };
-    const secretKey = 'motositefindr123'; // Ganti dengan kunci rahasia yang aman
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Tambahkan opsi expiresIn jika diperlukan
+// module.exports.login = async (req, res) => {
+//     // Jika autentikasi berhasil, buat token JWT
+//     const payload = { user_id: req.user._id, username: req.user.username };
+//     const secretKey = 'motositefindr123'; // Ganti dengan kunci rahasia yang aman
+//     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Tambahkan opsi expiresIn jika diperlukan
 
-    // Kirim token sebagai respons
-    res.status(200).json({ success: true, message: 'Login berhasil', token });
-}
+//     // Kirim token sebagai respons
+//     res.status(200).json({ success: true, message: 'Login berhasil', token });
+// }
 
 
 
