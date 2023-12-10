@@ -5,6 +5,8 @@ const wrapAsync = require('../utils/wrapAsync');
 const { route } = require('./motor');
 const passport = require('passport');
 const controllersAuth = require('../controllers/auth')
+const bcrypt = require('bcrypt');
+
 
 // Register
 // router.get('/register', controllersAuth.registerForm);
