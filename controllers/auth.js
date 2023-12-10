@@ -12,7 +12,7 @@ module.exports.register = async(req,res)=>{
   email:req.body.email,
   username:req.body.username,
   password: await bcrypt.hash(req.body.password, 10),
-}).save(); add .
+}).save();
 
 
 res.send(user)
