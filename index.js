@@ -45,14 +45,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    // Session configuration...
-}));
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
-// Passport configuration...
-
-app.use(session({
     secret: 'your-secret-key', // Add your own secret key
     resave: false,
     saveUninitialized: true, // Set to true or false based on your use case
@@ -62,6 +54,12 @@ app.use(session({
         maxAge: 100 * 60 * 60 * 24 * 27
     }
 }));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+// Passport configuration...
+
+
 
 
 
