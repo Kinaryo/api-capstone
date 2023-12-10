@@ -95,10 +95,6 @@ module.exports.logout = (req, res) => {
         if (err) { return next(err); }
         req.flash('success_msg', 'Anda berhasil logout');
         res.status(200).json({ success: true, message: 'Logout berhasil' });
-
-const express = require('express')
-const User = require('../models/user')
-const bcrypt = require('bcryptjs')
 })}
 
 
