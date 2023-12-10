@@ -1,4 +1,6 @@
 const express = require('express');
+const ejsMate = require('ejs-mate');
+require('dotenv').config();
 const session = require('express-session');
 const cors = require('cors');
 const ErrorHandler = require('./utils/ErrorHandler');
