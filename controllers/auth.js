@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const generateLogToken = require('../utils/generateLogToken')
+const {generateLogToken} = require('../utils/generateLogToken')
 
 module.exports.register = async (req, res) => {
   try {
