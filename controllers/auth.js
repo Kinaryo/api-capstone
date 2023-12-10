@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const generateLogToken = require('../utils/generateLogToken')
 
 module.exports.register = async (req, res) => {
   try {
@@ -35,7 +36,8 @@ module.exports.login = async (req,res)=>{
           _id:user._id,
           fullname:user.fullname,
           email:user.email,
-          password: user.password
+          password: user.password,
+          token:generateLogToken(user),
         }
       )
     }
