@@ -2,7 +2,7 @@ const express = require('express');
 const wrapAsync = require('../utils/wrapAsync');
 const controllersMotor = require('../controllers/motor');
 const isValidObjectId = require('../middlewares/isValidObjectId');
-const { isAuthToken } = require('../middlewares/isAuth');
+const { isAuth } = require('../middlewares/isAuth');
 const upload = require('../config/multer');
 const { isAuthorMotor } = require('../middlewares/isAuthor');
 const { validateMotor } = require('../middlewares/validator');
@@ -10,7 +10,7 @@ const { validateMotor } = require('../middlewares/validator');
 const router = express.Router();
 
 router.get('/search', wrapAsync(controllersMotor.search));
-router.get('/', wrapAsync(controllersMotor.index));
+router.get('/',isAuth,wrapAsync(controllersMotor.index));
 router.get('/detail/:id', isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
 
 router.get('/create', controllersMotor.form);
