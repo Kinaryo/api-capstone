@@ -52,8 +52,6 @@ module.exports.form = (req, res) => {
     res.json({ message: 'Halaman new post' });
 };
 
-const Motor = require('../models/motor'); // Import model Motor
-
 module.exports.store = async (req, res) => {
   try {
     // Mendapatkan URL gambar dari request
