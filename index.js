@@ -9,14 +9,8 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-const bodyParser = require('body-parser');
-const wrapAsync = require('./utils/wrapAsync');
-const isValidObjectId = require('./middlewares/isValidObjectId');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser')
 // Models
-const User = require('./models/user');
 
 app.use(cors());
 app.use(cookieParser())
@@ -71,9 +65,6 @@ app.use(passport.session());
 // Passport configuration...
 
 
-
-
-
 // Custom middleware...
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
@@ -81,7 +72,6 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
-
 
 // Routes...
 app.use('/', require('./routes/auth'));

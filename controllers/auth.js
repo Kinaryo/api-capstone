@@ -9,7 +9,9 @@ module.exports.register = async (req, res) => {
       const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
       const newUser = new User({
+        fullname: req.body.fullname,
         username: req.body.username,
+        email: req.body.email,
         password: hashedPassword,
       });
 
@@ -56,7 +58,6 @@ module.exports.login = async (req, res) => {
     res.status(500).json('Internal Server Error');
   }
 };
-
 
 
 module.exports.logout = (req,res) =>{
