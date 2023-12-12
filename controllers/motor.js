@@ -54,19 +54,11 @@ module.exports.form = (req, res) => {
 
 module.exports.store = async (req, res) => {
   try {
-    // Dapatkan semua URL gambar dari req.files jika ada
     const imageUrls = req.files.map((file) => file.path);
-
-    // Buat objek Motor dengan data dari req.body.motor
     const motorData = { ...req.body.motor, imageURL: imageUrls };
-
-    // Buat instance Motor
     const motor = new Motor(motorData);
-
-    // Simpan motor ke MongoDB
-    motor.author = req.user._id
+    motor.author = await req.user._id
     await motor.save();
-
     res.json({ motor });
   } catch (error) {
     console.error('Error storing motor:', error.message);
