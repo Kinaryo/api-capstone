@@ -57,7 +57,7 @@ module.exports.store = async (req, res) => {
     const imageUrls = req.files.map((file) => file.path);
     const motorData = { ...req.body.motor, imageURL: imageUrls };
     const motor = new Motor(motorData);
-    motor.author = await req.user._id
+    motor.author = await payload._id
     await motor.save();
     res.json({ motor });
   } catch (error) {
