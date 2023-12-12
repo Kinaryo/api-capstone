@@ -52,15 +52,26 @@ module.exports.form = (req, res) => {
     res.json({ message: 'Halaman new post' });
 };
 
+const Motor = require('../models/motor'); // Import model Motor
+
 module.exports.store = async (req, res) => {
   try {
+    // Mendapatkan URL gambar dari request
     const imageUrls = req.files.map((file) => file.path);
-    const motorData = { ...req.body.motor, imageURL: imageUrls };
+
+    // Membuat objek motorData dengan data motor dari request dan menambahkan imageURL dan author
+    const motorData = { ...req.body.motor, imageURL: imageUrls, author: req.user.id };
+
+    // Membuat instance Motor dengan data yang telah dibuat
     const motor = new Motor(motorData);
-    motor.author = await req.user._id
+
+    // Menyimpan data motor ke dalam database
     await motor.save();
+
+    // Mengirimkan respon dengan data motor yang telah disimpan
     res.json({ motor });
   } catch (error) {
+    // Menangani kesalahan jika terjadi
     console.error('Error storing motor:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
