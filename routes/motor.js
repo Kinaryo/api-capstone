@@ -9,15 +9,15 @@ const { validateMotor } = require('../middlewares/validator');
 
 const router = express.Router();
 
-router.get('/search', isAuthToken, wrapAsync(controllersMotor.search));
-router.get('/', isAuthToken, wrapAsync(controllersMotor.index));
-router.get('/detail/:id', isAuthToken, isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
+router.get('/search', wrapAsync(controllersMotor.search));
+router.get('/', wrapAsync(controllersMotor.index));
+router.get('/detail/:id', isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
 
-router.get('/create', isAuthToken, controllersMotor.form);
-router.post('/create/upload', isAuthToken, upload.array('image', 5), wrapAsync(controllersMotor.store));
+router.get('/create', controllersMotor.form);
+router.post('/create/upload', upload.array('image', 5), wrapAsync(controllersMotor.store));
 
-router.get('/:id/edit', isAuthToken, isAuthorMotor, isValidObjectId('/motors'), wrapAsync(controllersMotor.edit));
-router.put('/:id/edit/update', isAuthToken, upload.array('image', 5), isValidObjectId('/motors'), validateMotor, wrapAsync(controllersMotor.update));
-router.delete('/:id/deleted', isAuthToken, isAuthorMotor, isValidObjectId('/motors'), wrapAsync(controllersMotor.destroy));
+router.get('/:id/edit', isAuthorMotor, isValidObjectId('/motors'), wrapAsync(controllersMotor.edit));
+router.put('/:id/edit/update', upload.array('image', 5), isValidObjectId('/motors'), validateMotor, wrapAsync(controllersMotor.update));
+router.delete('/:id/deleted', isAuthorMotor, isValidObjectId('/motors'), wrapAsync(controllersMotor.destroy));
 
 module.exports = router;

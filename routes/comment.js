@@ -16,9 +16,9 @@ const router = express.Router({mergeParams : true});
 
 //bagian komentar
 // router.post('/',isAuth, isValidObjectId('/motors'),validateComment, wrapAsync(controllersComment.store));
-router.post('/comments',isAuthToken, isValidObjectId('/motors'),validateComment, wrapAsync(controllersComment.store));
+router.post('/comments', isValidObjectId('/motors'),validateComment, wrapAsync(controllersComment.store));
 // menghapus komentar 
 // router.delete('/motors/:motor_id/comments/:comment_id', isAuth,isAuthorComment,isValidObjectId('/motors'),wrapAsync(controllersComment.destroy));
-router.delete('/comments/:comment_id',isAuthToken,isAuthorComment,isValidObjectId('/motors'),wrapAsync(controllersComment.destroy));
+router.delete('/comments/:comment_id',isAuthorComment,isValidObjectId('/motors'),wrapAsync(controllersComment.destroy));
 
 module.exports= router;
