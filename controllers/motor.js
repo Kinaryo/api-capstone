@@ -51,9 +51,6 @@ console.log(motor)
 module.exports.form = (req, res) => {
     res.json({ message: 'Halaman new post' });
 };
-
-
-
 module.exports.store = async (req, res) => {
   try {
     // Mendapatkan URL gambar dari request
@@ -77,15 +74,11 @@ module.exports.store = async (req, res) => {
   }
 };
 
-
-
-
 // menuju halaman edit 
 module.exports.edit = async (req, res) => {
     const motor = await Motor.findById(req.params.id);
     res.json({ message: 'Halaman edit', motor });
 };
-
 
   // Fungsi Update
 module.exports.update = async (req, res) => {

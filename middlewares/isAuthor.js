@@ -8,8 +8,9 @@ module.exports.isAuthorMotor = async(req,res,next)=>{
 
     if (!motor.author.equals(req.user._id)){
       req.flash('error_msg', 'Not authorized');
-      return (res.redirect('/pages'))
-    }
+      return  res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini', error_msg});
+    } 
+    
     next();
 }
 module.exports.isAuthorComment = async (req, res, next) => {
