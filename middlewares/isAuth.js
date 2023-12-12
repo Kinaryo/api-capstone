@@ -35,7 +35,7 @@ module.exports.isAuth = (req,res,next)=>{
     return res.status(401).json('no token faund')
   }
 
-  jwt.verify(token, process.env.JWT_PASS,(err,payload)=>{
+  jwt.verify(token, 'motosite',(err,payload)=>{
     if(err){
       return res.status(403).json('invalid Token')
     }

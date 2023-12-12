@@ -42,7 +42,7 @@ module.exports.login = async (req, res) => {
         id: user._id
       }
 
-      const token = jwt.sign(payload,process.env.JWT_PASS,{expiresIn: '1d'})
+      const token = jwt.sign(payload,'motosite',{expiresIn: '1d'})
       res.cookie('access_token', token, {
         httpOnly: true
       }).status(200).json({message:'Login successful', user, token});
