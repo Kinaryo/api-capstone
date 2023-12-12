@@ -16,7 +16,7 @@ module.exports.register = async (req, res) => {
       });
 
       await newUser.save();
-      res.status(201).json('New user created');
+      res.status(201).json({message :'New user created', newUser});
     } else {
       res.status(403).json('Please provide a password');
     }
