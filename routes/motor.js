@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/search', wrapAsync(controllersMotor.search));
 router.get('/', wrapAsync(controllersMotor.index));
-router.get('/detail/:id', isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
+router.get('/detail/:id', isAuthToken, isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
 
 router.get('/create', controllersMotor.form);
 router.post('/create/upload', upload.array('image', 5), wrapAsync(controllersMotor.store));

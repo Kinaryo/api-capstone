@@ -14,6 +14,17 @@ const wrapAsync = require('./utils/wrapAsync');
 const isValidObjectId = require('./middlewares/isValidObjectId');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const authRoutes = require('./routes/auth')
+
+
+
+
+
+
+
+
+
+
 
 // Models
 const User = require('./models/user');
@@ -73,7 +84,8 @@ app.use((req, res, next) => {
 
 
 // Routes...
-app.use('/', require('./routes/auth'));
+// app.use('/', require('./routes/auth'));
+app.use(authRoutes)
 app.use('/motors', require('./routes/motor'));
 app.use('/motors/:motor_id/', require('./routes/comment'));
 

@@ -7,7 +7,7 @@ module.exports.generateLogToken = (user)=>{
             fullname:user.fullname,
             email:user.email
         },
-        process.env.JWT_PASS || '****',
+        process.env.JWT_PASS,
         {
             expiresIn: '10d',
         }

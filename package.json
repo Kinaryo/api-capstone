@@ -30,6 +30,8 @@
     "nodemon": "^3.0.2",
     "passport": "^0.7.0",
     "passport-local-mongoose": "^8.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "validate": "^5.2.0",
+    "validator": "^13.11.0"
   }
 }
