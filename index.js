@@ -48,6 +48,8 @@ connectDB();
 
 // Middleware setup...
 app.use(cors());
+
+
 app.use(bodyParser.json());
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -69,10 +71,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 // Passport configuration...
-
-
-
-
 
 // Custom middleware...
 app.use((req, res, next) => {
