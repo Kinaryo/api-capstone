@@ -5,14 +5,26 @@ module.exports.isAuthorMotor = async (req, res, next) => {
   const { id } = req.params;
   try {
     const motor = await Motor.findById(id);
+
+    // Log nilai motor.author dan req.user._id
+    console.log('motor.author:', motor.author);
+    console.log('req.user._id:', req.user._id);
+
     if (!motor) {
       return res.status(404).json({ error: 'Motor tidak ditemukan' });
     }
-    const author = req.user._id
+
+    const author = req.user._id;
+
+    // Log nilai motor.author dan author setelah deklarasi
+    console.log('motor.author setelah deklarasi:', motor.author);
+    console.log('author:', author);
+
     if (!motor.author.equals(author)) {
       req.flash('error_msg', 'Not authorized');
       return res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini' });
     }
+
     next();
   } catch (error) {
     console.error('Error pada middleware isAuthorMotor:', error.message);
