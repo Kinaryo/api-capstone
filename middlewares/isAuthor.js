@@ -8,7 +8,8 @@ module.exports.isAuthorMotor = async (req, res, next) => {
     if (!motor) {
       return res.status(404).json({ error: 'Motor tidak ditemukan' });
     }
-    if (!motor.author.equals(req.user._id)) {
+    const author = req.user._id
+    if (!motor.author.equals(author)) {
       req.flash('error_msg', 'Not authorized');
       return res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini' });
     }
