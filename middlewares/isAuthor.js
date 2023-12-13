@@ -1,8 +1,6 @@
 const Motor = require ("../models/motor")
 const Comment = require("../models/comment")
 
-const Motor = require("../models/motor");
-
 module.exports.isAuthorMotor = async (req, res, next) => {
   const { id } = req.params;
 
