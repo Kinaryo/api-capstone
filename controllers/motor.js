@@ -3,8 +3,8 @@ const fs = require('fs')
 const ExpressError = require('../utils/ErrorHandler')
 
 module.exports.index = async (req, res) => {
-    const {id} = req.params
-    const motors = await Motor.find(id)
+    // const {id} = req.params
+    const motors = await Motor.find()
     const msg = req.flash('succes_msg','motor fetched successfully')
      res.json({msg, motors });
   }
