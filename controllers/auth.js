@@ -1,66 +1,100 @@
-const bcrypt = require('bcrypt');
+
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt');
+const {generateLogToken} = require('../utils/generateLogToken')
 
 module.exports.register = async (req, res) => {
   try {
-    if (req.body.password) {
-      const salt = bcrypt.genSaltSync(10);
-      const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+    const existingUser = await User.findOne({ email: req.body.email });
 
-      const newUser = new User({
-        fullname: req.body.fullname,
-        username: req.body.username,
-        email: req.body.email,
-        password: hashedPassword,
-      });
-
-      await newUser.save();
-      res.status(201).json({message :'New user created', newUser});
-    } else {
-      res.status(403).json('Please provide a password');
+    if (existingUser) {
+      return res.status(400).json({ error: 'User with the given email already exists' });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Internal Server Error');
-  }
-};
 
-module.exports.login = async (req, res) => {
-  try {
-    const user = await User.findOne({
+    const newUser = await new User({
+      fullname: req.body.fullname,
+      email: req.body.email,
       username: req.body.username,
-    });
+      password: await bcrypt.hash(req.body.password, 10),
+    }).save();
 
-    if (!user) {
-      return res.status(404).json('No user found');
-    }
-
-    const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
-
-    if (isPasswordCorrect) {
-
-      const payload = {
-        id: user._id
-      }
-
-      const token = jwt.sign(payload,'motosite',{expiresIn: '1d'})
-      res.cookie('access_token', token, {
-        httpOnly: true
-      }).status(200).json({message:'Login successful', user, token});
-
-
-    } else {
-      res.status(401).json('Wrong password');
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Internal Server Error');
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error registering user' });
   }
 };
 
 
-module.exports.logout = (req,res) =>{
-  res.clearCookie('access_token');
-  res.status(200).json('Logout Berhasil')
+module.exports.login = async (req,res)=>{
+  const user = await User.findOne({email:req.body.email})
+  if (user){
+    if(bcrypt.compare(req.body.password, user.password)){
+      res.send(
+        {
+          _id:user._id,
+          fullname:user.fullname,
+          email:user.email,
+          password: user.password,
+          token:generateLogToken(user),
+        }
+      )
+    }
+  }
 }
+
+
+
+
+
+module.exports.registerForm = async (req, res) => {
+    res.status(200).json({ message: 'Render registration form' });
+}
+
+// module.exports.register = async (req, res) => {
+//     try {
+//         const { email, username, password, name } = req.body;
+//         const user = new User({ email, username, name });
+//         const registerUser = await User.register(user, password);
+
+//         req.login(registerUser, (err) => {
+//             if (err) return next(err);
+//             req.flash('success_msg', 'Registrasi berhasil, Anda berhasil login');
+//             res.status(200).json({ success: true, message: 'Registrasi berhasil' });
+//         });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// }
+
+module.exports.loginForm = (req, res) => {
+    res.status(200).json({ message: 'Render login form' });
+}
+
+// module.exports.login = (req, res) => {
+//     res.status(200).json({ success: true, message: 'Login berhasil' });
+// };
+
+// module.exports.login = async (req, res) => {
+//     // Jika autentikasi berhasil, buat token JWT
+//     const payload = { user_id: req.user._id, username: req.user.username };
+//     const secretKey = 'motositefindr123'; // Ganti dengan kunci rahasia yang aman
+//     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Tambahkan opsi expiresIn jika diperlukan
+
+//     // Kirim token sebagai respons
+//     res.status(200).json({ success: true, message: 'Login berhasil', token });
+// }
+
+
+
+
+
+module.exports.logout = (req, res) => {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        req.flash('success_msg', 'Anda berhasil logout');
+        res.status(200).json({ success: true, message: 'Logout berhasil' });
+})}
+
+

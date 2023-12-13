@@ -9,14 +9,14 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser');
+const wrapAsync = require('./utils/wrapAsync');
+const isValidObjectId = require('./middlewares/isValidObjectId');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 // Models
-
-app.use(cors());
-app.use(cookieParser())
-app.use(express.json());
-
-
+const User = require('./models/user');
 
 // Connect to MongoDB
 const connectDB = async () => {
@@ -33,16 +33,24 @@ const connectDB = async () => {
 };
 connectDB();
 
+
 // mongoose.connect('mongodb://127.0.0.1/motositefinder')
 // .then((result)=>{
 //     console.log('connected to mongodb')
 // }).catch((err)=>{
 //     console.log(err)
 // })
+
+
+
+
 // Other imports...
 
 // Middleware setup...
+app.use(cors());
 
+
+app.use(bodyParser.json());
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -60,7 +68,9 @@ app.use(session({
     }
 }));
 app.use(flash());
-
+app.use(passport.initialize());
+app.use(passport.session());
+// Passport configuration...
 
 // Custom middleware...
 app.use((req, res, next) => {
@@ -69,6 +79,7 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
+
 
 // Routes...
 app.use('/', require('./routes/auth'));
@@ -91,6 +102,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Listening On Port ${PORT}`);
 });
+
 
 // app.listen(5000,()=>{
 //     console.log(`server is running on http://127.0.0.1:5000`)

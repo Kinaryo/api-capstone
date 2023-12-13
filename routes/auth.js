@@ -1,12 +1,20 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();  // Use express.Router() to create a router
+const User = require('../models/user');
+const wrapAsync = require('../utils/wrapAsync');
+const passport = require('passport');
+const controllersAuth = require('../controllers/auth');
+const bcrypt = require('bcrypt');
 
-const controllersAuth = require('../controllers/auth')
+// Register
+// router.get('/register', controllersAuth.registerForm);
+router.post('/register', wrapAsync(controllersAuth.register));
 
-router.post('/login', controllersAuth.login)
-router.post('/register', controllersAuth.register)
-router.get('/logout', controllersAuth.logout)
-    
+// Login
+// router.get('/login', controllersAuth.loginForm);
+router.post('/login', controllersAuth.login);
 
+// Logout
+router.post('/logout', controllersAuth.logout);
 
 module.exports = router;
