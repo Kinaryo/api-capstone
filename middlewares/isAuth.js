@@ -1,6 +1,6 @@
 const passport = require('passport');
 const AnonymousStrategy = require('passport-anonymous').Strategy;
-const JwtStrategy = require('passport-jwt').Strategy,
+const JwtStrategy = require('passport-local').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 const opts = {};
 const User  = require('../models/user');

@@ -33,6 +33,17 @@ const connectDB = async () => {
 };
 connectDB();
 
+
+// mongoose.connect('mongodb://127.0.0.1/motositefinder')
+// .then((result)=>{
+//     console.log('connected to mongodb')
+// }).catch((err)=>{
+//     console.log(err)
+// })
+
+
+
+
 // Other imports...
 
 // Middleware setup...
@@ -88,8 +99,13 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-// Start the server...
+// // Start the server...
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Listening On Port ${PORT}`);
 });
+
+
+// app.listen(5000,()=>{
+//     console.log(`server is running on http://127.0.0.1:5000`)
+// })
