@@ -1,18 +1,36 @@
 const Motor = require ("../models/motor")
 const Comment = require("../models/comment")
 
-module.exports.isAuthorMotor = async(req,res,next)=>{
-    const {id} = req.params
+const Motor = require("../models/motor");
 
-    let motor = await Motor.findById(id);
+module.exports.isAuthorMotor = async (req, res, next) => {
+  const { id } = req.params;
 
-    if (!motor.author.equals(req.user._id)){
+  try {
+    const motor = await Motor.findById(id);
+
+    if (!motor) {
+      return res.status(404).json({ error: 'Motor tidak ditemukan' });
+    }
+
+    if (!motor.author.equals(req.user._id)) {
       req.flash('error_msg', 'Not authorized');
-      return  res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini'});
-    } 
-    
+      return res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini' });
+    }
+
     next();
-}
+  } catch (error) {
+    console.error('Error pada middleware isAuthorMotor:', error.message);
+    res.status(500).json({ error: 'Error Server Internal' });
+  }
+};
+
+
+
+
+
+
+
 module.exports.isAuthorComment = async (req, res, next) => {
   const { comment_id } = req.params;
 
