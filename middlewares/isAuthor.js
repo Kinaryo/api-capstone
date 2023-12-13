@@ -8,13 +8,13 @@ module.exports.isAuthorMotor = async (req, res, next) => {
 
     // Log nilai motor.author dan req.user._id
     console.log('motor.author:', motor.author);
-    console.log('req.user._id:', req.user._id);
+    console.log('req.user._id:', req.user.id);
 
     if (!motor) {
       return res.status(404).json({ error: 'Motor tidak ditemukan' });
     }
 
-    const author = req.user._id;
+    const author = req.user.id;
 
     // Log nilai motor.author dan author setelah deklarasi
     console.log('motor.author setelah deklarasi:', motor.author);
