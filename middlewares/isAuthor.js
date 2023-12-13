@@ -3,19 +3,15 @@ const Comment = require("../models/comment")
 
 module.exports.isAuthorMotor = async (req, res, next) => {
   const { id } = req.params;
-
   try {
     const motor = await Motor.findById(id);
-
     if (!motor) {
       return res.status(404).json({ error: 'Motor tidak ditemukan' });
     }
-
     if (!motor.author.equals(req.user._id)) {
       req.flash('error_msg', 'Not authorized');
       return res.status(403).json({ error: 'Anda tidak diizinkan untuk melakukan ini' });
     }
-
     next();
   } catch (error) {
     console.error('Error pada middleware isAuthorMotor:', error.message);
