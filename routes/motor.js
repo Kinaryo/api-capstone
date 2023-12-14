@@ -9,8 +9,8 @@ const { validateMotor } = require('../middlewares/validator');
 
 const router = express.Router();
 
-router.get('/search',authenticate, wrapAsync(controllersMotor.search));
-router.get('/', authenticate, wrapAsync(controllersMotor.index));
+router.get('/search', wrapAsync(controllersMotor.search));
+router.get('/', wrapAsync(controllersMotor.index));
 router.get('/detail/:id', isValidObjectId('/motors'), wrapAsync(controllersMotor.detail));
 
 router.get('/create',authenticate, controllersMotor.form);
